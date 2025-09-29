@@ -1,0 +1,117 @@
+import java.util.Scanner;
+
+public class StudentManagementSystem {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        
+        String studentName = "";
+        String studentId = "";
+        int numCourses = 0;
+        double[] marks = null;
+        
+        while (true) {
+            System.out.println("Menu:");
+            System.out.println("1. Enter Student Details");
+            System.out.println("2. Enter Marks");
+            System.out.println("3. Display Marks Info.");
+            System.out.println("4. Display Student Details");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            
+            int choice = input.nextInt();
+            input.nextLine(); // تنظيف البuffer
+            
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Student Name: ");
+                    studentName = input.nextLine();
+                    System.out.print("Enter ID Number: ");
+                    studentId = input.nextLine();
+                    System.out.print("How many courses last semester? ");
+                    numCourses = input.nextInt();
+                    marks = new double[numCourses];
+                    break;
+                    
+                case 2:
+                    if (numCourses == 0) {
+                        System.out.println("Please enter student details first!");
+                        break;
+                    }
+                    System.out.print("Enter Marks for " + numCourses + " subjects: ");
+                    for (int i = 0; i < numCourses; i++) {
+                        marks[i] = input.nextDouble();
+                    }
+                    break;
+                    
+                case 3:
+                    if (marks == null) {
+                        System.out.println("No marks entered yet!");
+                        break;
+                    }
+                    
+                    double sum = 0;
+                    double max = marks[0];
+                    double min = marks[0];
+                    
+                    for (double mark : marks) {
+                        sum += mark;
+                        if (mark > max) max = mark;
+                        if (mark < min) min = mark;
+                    }
+                    double average = sum / marks.length;
+                    
+                    System.out.printf("Average: %.1f\n", average);
+                    System.out.printf("Maximum: %.1f\n", max);
+                    System.out.printf("Minimum: %.1f\n", min);
+                    break;
+                    
+                case 4:
+                    if (studentName.isEmpty()) {
+                        System.out.println("No student details entered yet!");
+                        break;
+                    }
+                    
+                    System.out.println("Name: " + studentName);
+                    System.out.println("KKU ID: " + studentId);
+                    
+                    if (marks != null) {
+                        double total = 0;
+                        double maxMark = marks[0];
+                        double minMark = marks[0];
+                        
+                        for (double mark : marks) {
+                            total += mark;
+                            if (mark > maxMark) maxMark = mark;
+                            if (mark < minMark) minMark = mark;
+                        }
+                        double avg = total / marks.length;
+                        
+                        System.out.printf("Course Mark P/F Avg: %.1f\n", avg);
+                        System.out.println("-----------------------------");
+                        
+                        for (int i = 0; i < marks.length; i++) {
+                            System.out.print((i + 1) + "\t" + marks[i] + "\t");
+                            System.out.print(marks[i] >= 60 ? "Pass" : "Fail");
+                            
+                            if (marks[i] == maxMark) {
+                                System.out.print("\tMax");
+                            } else if (marks[i] == minMark) {
+                                System.out.print("\tMin");
+                            }
+                            System.out.println();
+                        }
+                    }
+                    break;
+                    
+                case 5:
+                    System.out.println("Goodbye!");
+                    input.close();
+                    return;
+                    
+                default:
+                    System.out.println("Invalid choice! Please enter 1-5.");
+            }
+            System.out.println();
+        }
+    }
+}
